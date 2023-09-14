@@ -4,7 +4,14 @@ from django.utils import timezone
 
 # Create your models here.
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
+
 class Post(models.Model):
+    objects = models.Manager() # Default manager
+    published = PublishedManager() # Undefault manager
+
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
